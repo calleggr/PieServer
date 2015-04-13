@@ -5,7 +5,7 @@ The Python WSGI Webserver for CSSE432 by Tyler Rockwood & Greg Callegari
 The proposal is to implement [PEP 3333](https://www.python.org/dev/peps/pep-3333/) by building a web server, completely in Python. The web server will be built completely to the standard from the [original project](https://www.rose-hulman.edu/class/csse/csse432/201530/Project/WebServer/index.html). In addition to this server, a minimalistic python framework will be implemented on top of the server, similar the frameworks found [here](http://en.wikipedia.org/wiki/Web_Server_Gateway_Interface#WSGI-compatible_applications_and_frameworks). The purpose of this framework will be for the end user to write python web applications on our server, much more simply than FastCGI or other ways that Python is used in web development.
 
 ## Project Specification
-Server:
+### Server:
 
 1. GET Requests
 1. POST Requests
@@ -17,7 +17,7 @@ Server:
 1. Multiple Connections: Each connection will be handled in a separate thread.
 1. Implement SSL support
 
-## Framework:
+### Framework:
 Example usage would be similar to [Flask](http://flask.pocoo.org/) or [WebApp2](https://webapp-improved.appspot.com/tutorials/quickstart.html).
 Able to define GET or POST Request Handlers for an arbitrary path
 Access Headers, Error Codes and Cookies
