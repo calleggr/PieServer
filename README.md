@@ -27,7 +27,7 @@ Be able to write to the body output using a stringbuffer.
 As proof of concept, we will implement a basic website that uses every aspect of our framework and uses the [Jinja2](http://jinja.pocoo.org/) templating library to output HTML content, and [SQLite](https://docs.python.org/2/library/sqlite3.html#module-sqlite3) for persistent storage.
 
 ## Limitations
-Only able to use the following python modules in the Server implementation:
+Only able to use the python modules in the Server implementation:
 
 1. [\__builtin\__](https://docs.python.org/2/library/__builtin__.html#module-__builtin__)
 1. [datetime](https://docs.python.org/2/library/string.html#module-string)

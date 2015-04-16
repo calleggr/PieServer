@@ -1,7 +1,7 @@
 import re
 import socket
 
-HOST = 'www.example.com'    # The remote host
+HOST = '127.0.0.1'    # The remote host
 PORT = 80              # The same port as used by the server
 
 ### TEST HELPER METHODS ###
@@ -26,13 +26,11 @@ print '===BEGIN HEAD TEST 1 ==='
 print 'Testing HTTP v1.0 HEAD request'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
-request = """HEAD /index.html HTTP/1.0
-
-"""
+request = """HEAD /index.html HTTP/1.0\r\n"""
 s.sendall(request)
 data = s.recv(1024)
 response_lines = data.split('\r\n')
-expected = 'HTTP/1.0 200 OK'
+expected = 'HTTP/1.1 200 OK'
 print 'Expecting line 1 of response to be: ', expected
 print 'Got: ', response_lines[0]
 
@@ -46,10 +44,7 @@ print '===BEGIN HEAD TEST 2 ==='
 print 'Testing HTTP v1.1 HEAD request'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
-request = """HEAD / HTTP/1.1
-Host: example.com
-
-"""
+request = """HEAD / HTTP/1.1\r\nHost: 127.0.0.1\r\n"""
 s.sendall(request)
 data = s.recv(1024)
 response_lines = data.split('\r\n')
@@ -65,19 +60,14 @@ print '===BEGIN HEAD TEST 3 ==='
 print 'Testing HTTP v1.1 HEAD request with headers'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
-request = """HEAD / HTTP/1.1
-Host: example.com
-Accept: text/plain
-Accept-Language: en-us
-
-"""
+request = """HEAD / HTTP/1.1\r\nHost: 127.0.0.1\r\nAccept: text/plain\r\nAccept-Language: en-us\r\n"""
 s.sendall(request)
 data = s.recv(1024)
 response_lines = data.split('\r\n')
-expected_lines = [  'HTTP/1.1 200 OK',
-                    'Date: (\w\w\w), (\d\d) (\w\w\w) (\d\d\d\d) (\d\d):(\d\d):(\d\d) ([A-Z]+)' ,
-                    'Server: (\w+)',
-                    'Content-Length: (\d+)']
+expected_lines = ['HTTP/1.1 200 OK',
+                  'Date: (\w\w\w), (\d\d) (\w\w\w) (\d\d\d\d) (\d\d):(\d\d):(\d\d) ([A-Z]+)' ,
+                  'Server: (\w+)',
+                  'Content-Length: (\d+)']
 print 'Expecting lines of response to be: ', expected_lines
 print 'Got: ', response_lines
 test_passed = True
