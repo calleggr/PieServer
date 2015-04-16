@@ -9,8 +9,7 @@ class Response():
         now = datetime.utcnow()
         fmt = "%a, %d %b %Y %X UTC"
         self.headers["Date"] = now.strftime(fmt)
-        #TODO get creative, perhaps consult a liberal arts major
-        self.headers["Server"] = 'PyServer'
+        self.headers["Server"] = 'PieServer'
         self.headers["Content-Length"] = 0
 
     def set_status(self, status_code=200):
