@@ -1,4 +1,4 @@
-# PyServer
+# PieServer
 The Python WSGI Webserver for CSSE432 by Tyler Rockwood & Greg Callegari
 
 ## Project Summary
