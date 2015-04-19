@@ -11,13 +11,25 @@ class Response():
         self.headers["Date"] = now.strftime(fmt)
         self.headers["Server"] = 'PieServer'
         self.headers["Content-Length"] = 0
+        self.body = ""
 
     def set_status(self, status_code=200):
         self.status_code = status_code
         self.status_message = Response.RESPONSE_MESSAGES[status_code]
 
+    def write(self, data):
+        self.body += data
+        self.headers["Content-Length"] += len(data)
+
     def __str__(self):
         response = 'HTTP/1.1 ' + str(self.status_code) + ' ' + self.status_message + '\r\n'
         for (name, value) in self.headers.items():
             response += name + ': ' + str(value) + '\r\n'
+        response += '\r\n'
+        response += self.body
         return response
+
+def not_found_response():
+    response = Response()
+    response.set_status(404)
+    return response

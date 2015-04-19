@@ -2,7 +2,7 @@ from errors import ServerError
 
 class Request():
 
-    ALLOWED_METHODS = ['HEAD'] #, 'GET', 'POST']
+    ALLOWED_METHODS = ['HEAD' , 'GET']# 'POST']
 
     def __init__(self, request_text):
         request_lines = request_text.split('\r\n')
