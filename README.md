@@ -1,8 +1,8 @@
 # PieServer
-The Python WSGI Webserver for CSSE432 by Tyler Rockwood & Greg Callegari
+The Python Webserver & Framework for CSSE432 by Tyler Rockwood & Greg Callegari
 
 ## Project Summary
-The proposal is to implement [PEP 3333](https://www.python.org/dev/peps/pep-3333/) by building a web server, completely in Python. The web server will be built completely to the standard from the [original project](https://www.rose-hulman.edu/class/csse/csse432/201530/Project/WebServer/index.html). In addition to this server, a minimalistic python framework will be implemented on top of the server, similar the frameworks found [here](http://en.wikipedia.org/wiki/Web_Server_Gateway_Interface#WSGI-compatible_applications_and_frameworks). The purpose of this framework will be for the end user to write python web applications on our server, much more simply than FastCGI or other ways that Python is used in web development.
+The proposal is to implement a web server, completely in Python. The web server will be built completely to the standard from the [original project](https://www.rose-hulman.edu/class/csse/csse432/201530/Project/WebServer/index.html). In addition to this server, a minimalistic python framework will be implemented on top of the server, similar the frameworks found [here](http://en.wikipedia.org/wiki/Web_Server_Gateway_Interface#WSGI-compatible_applications_and_frameworks). The purpose of this framework will be for the end user to write python web applications on our server, much more simply than FastCGI or other ways that Python is used in web development.
 
 ## Project Specification
 ### Server:
@@ -22,6 +22,7 @@ Example usage would be similar to [Flask](http://flask.pocoo.org/) or [WebApp2](
 Able to define GET or POST Request Handlers for an arbitrary path
 Access Headers, Error Codes and Cookies
 Be able to write to the body output using a stringbuffer.
+A built-in wrapper to SQLite, possibly using [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ## Proof of Concept:
 As proof of concept, we will implement a basic website that uses every aspect of our framework and uses the [Jinja2](http://jinja.pocoo.org/) templating library to output HTML content, and [SQLite](https://docs.python.org/2/library/sqlite3.html#module-sqlite3) for persistent storage.
