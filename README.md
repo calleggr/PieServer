@@ -19,10 +19,11 @@ The proposal is to implement a web server, completely in Python. The web server 
 
 ### Framework:
 Example usage would be similar to [Flask](http://flask.pocoo.org/) or [WebApp2](https://webapp-improved.appspot.com/tutorials/quickstart.html).
-Able to define GET or POST Request Handlers for an arbitrary path
-Access Headers, Error Codes and Cookies
-Be able to write to the body output using a stringbuffer.
-A built-in wrapper to SQLite, possibly using [SQLAlchemy](http://www.sqlalchemy.org/)
+
+1. Able to define GET or POST Request Handlers for an arbitrary path
+1. Access Headers, Error Codes and Cookies
+1. Be able to write to the body output using a stringbuffer.
+1. A built-in wrapper to SQLite, possibly using [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ## Proof of Concept:
 As proof of concept, we will implement a basic website that uses every aspect of our framework and uses the [Jinja2](http://jinja.pocoo.org/) templating library to output HTML content, and [SQLite](https://docs.python.org/2/library/sqlite3.html#module-sqlite3) for persistent storage.
