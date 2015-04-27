@@ -1,7 +1,7 @@
 
 import os
 
-from ..framework import pie_server
+from framework import pie_server
 
 PATH = os.path.dirname(__file__)
 

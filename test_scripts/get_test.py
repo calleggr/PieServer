@@ -2,7 +2,7 @@ import re
 import socket
 
 HOST = '127.0.0.1'    # The remote host
-PORT = 80              # The same port as used by the server
+PORT = 8080              # The same port as used by the server
 
 ### TEST HELPER METHODS ###
 

@@ -1,4 +1,4 @@
-from ..server.errors import ServerError
+from server.errors import ServerError
 
 class RequestHandler():
 

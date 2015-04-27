@@ -1,1 +1,1 @@
-python -m src.server.server
+python src/start.py
