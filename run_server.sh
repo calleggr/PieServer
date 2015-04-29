@@ -1,1 +1,1 @@
-python src/start.py
+python src/start_test_server.py

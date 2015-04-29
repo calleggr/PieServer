@@ -2,7 +2,7 @@ from errors import ServerError
 
 class Request():
 
-    ALLOWED_METHODS = ['HEAD' , 'GET']# 'POST']
+    ALLOWED_METHODS = ['HEAD', 'GET', 'POST']
 
     def __init__(self, request_text):
         request_lines = request_text.split('\r\n')
@@ -13,6 +13,7 @@ class Request():
         if self.method not in Request.ALLOWED_METHODS:
             raise ServerError('Not Supported Request', 405)
         self.path = command[1]
+        # TODO: Parse query string...
         if not self.path.startswith('/'):
             self.path = self.path(self.path.split('/', 1)[-1])
         self.version = command[2]
@@ -26,6 +27,9 @@ class Request():
             self.headers[name] = value
         if self.version.endswith('1.1') and not self.headers.get('Host'):
             raise ServerError('Invalid Request, no host in header', 400)
+        if self.method == 'POST':
+            # TODO: Parse POST Body
+            pass
 
 if __name__ == '__main__':
     pass
