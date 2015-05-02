@@ -18,14 +18,15 @@
 
     <div class="container">
       <div class="blog-header">
-        <h1 class="blog-title">Hello World</h1>
-        <p class="lead blog-description">This is the first web page served from PieServer.</p>
+        <h1 class="blog-title">Hello File</h1>
+        <p class="lead blog-description">This is the second web page served from PieServer.</p>
       </div>
       <div>
         POST Test:
-        <form action="/" method="post">
+        <form action="/" method="post" enctype="multipart/form-data">
           Name: <input type="text" name="name"><br>
-          E-mail: <input type="text" name="email"><br>
+          <label for="file">Filename:</label>
+          <input type="file" name="file" id="file" />
           <input type="submit">
         </form>
       </div>

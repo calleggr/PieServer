@@ -24,7 +24,7 @@ class PieServer():
             try:
                 request = Request(data)
             except ServerError, e:
-                print "Request Error: ", e.message
+                print "Request Error: ", e.message, '\n', data
                 response.set_status(status_code=e.code)
                 conn.sendall(str(response))
                 conn.close()
@@ -34,7 +34,7 @@ class PieServer():
                 try:
                     handler.handle()
                 except ServerError, e:
-                    print "Request Error: ", e.message
+                    print "Request Error: ", e.message, '\n', data
                     response.set_status(status_code=e.code)
                     conn.sendall(str(response))
                     conn.close()

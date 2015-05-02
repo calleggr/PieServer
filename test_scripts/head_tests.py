@@ -21,7 +21,7 @@ def andmap(func, seq):
     return result
 
 ### START TESTS ###
-
+# Note I'm not concerned about efficency, just clarity
 print '===BEGIN HEAD TEST 1 ==='
 print 'Testing HTTP v1.0 HEAD request'
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

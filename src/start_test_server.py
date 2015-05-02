@@ -1,4 +1,4 @@
-from app.framework.server.server import PieServer
-from app.main import app
+from test_app.framework.server.server import PieServer
+from test_app.main import app
 
 PieServer(app).run()
