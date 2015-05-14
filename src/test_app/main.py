@@ -1,6 +1,7 @@
 
 import os
 
+from framework.server.upload import Upload
 from framework import pie_server
 
 PATH = os.path.dirname(__file__)
@@ -27,8 +28,8 @@ class FileHandler(pie_server.RequestHandler):
 
     def post(self):
         name = self.request.qs_lookup('name')
-        file = self.request.get_upload('file')
+        file = Upload('', '') or self.request.get_upload('file')
         self.response.write("Name: {0}, Filename: {1}\r\n\r\n".format(name, file.name))
         self.response.write(file.data)
 
-app = pie_server.App( {'/' : TestHandler, '/upload': HeadHandler} )
+app = pie_server.App( {'/' : TestHandler, '/upload': FileHandler} )

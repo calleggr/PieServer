@@ -6,11 +6,11 @@ class Request():
     ALLOWED_METHODS = ['HEAD', 'GET', 'POST']
 
     def __init__(self, request_text):
-        request_text = request_text.split('\r\n\r\n', 2)
+        request_text = request_text.split('\r\n\r\n', 1)
         if len(request_text) > 1:
-            body = request_text[1].strip()
+            self.body = request_text[1].strip()
         else:
-            body = ""
+            self.body = ""
         header_lines = request_text[0].split('\r\n')
         command = header_lines[0].split(' ')
         if len(command) != 3:
@@ -42,11 +42,14 @@ class Request():
                 content_type = self.headers.get('Content-Type')
                 boundary_start = content_type.index('boundary=')
                 boundary = content_type[boundary_start:]
-                print boundary
-                # TODO
-                # http://stackoverflow.com/questions/7553005/sending-a-file-via-post-using-raw-http-putty
+                boundary = boundary[boundary.index('=') + 1:]
+                self._parse_body_as_multipart(boundary)
             elif 'application/x-www-form-urlencoded' in self.headers.get('Content-Type', ""):
-                self._parse_parameters(self.params, body)
+                self._parse_parameters(self.params, self.body)
+
+    def _parse_body_as_multipart(self, boundary):
+        #TODO
+        pass
 
     def _parse_parameters(self, list, params):
         for param in params.split('&'):

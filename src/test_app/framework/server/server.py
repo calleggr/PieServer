@@ -1,8 +1,8 @@
 import socket
+import threading
 from response import Response, not_found_response
 from request import Request
 from errors import ServerError
-
 
 class PieServer():
 
@@ -18,28 +18,41 @@ class PieServer():
         print "Listing on port: " + str(self.port)
         while True:
             conn, addr = s.accept()
-            print "Accepted connection from: " + str(addr)
-            data = conn.recv(4096)
-            response = Response()
+            thread = threading.Thread(target=handle_conn, args=(conn, addr, self.app))
+            thread.start()
+
+def handle_conn(conn, addr, app):
+    print "Accepted connection from: " + str(addr)
+    while True:
+        try:
+            data = conn.recv(2**20)
+        except Exception, _:
+            print 'Closing connection at: ', addr
+            conn.close()
+            return
+        response = Response()
+        try:
+            request = Request(data)
+        except ServerError, e:
+            print "Request Error: ", e.message, '\n', data
+            response.set_status(status_code=e.code)
+            conn.sendall(str(response))
+            conn.close()
+            return
+        if request.path in app.paths:
+            handler = app.paths[request.path](request, response)
             try:
-                request = Request(data)
+                handler.handle()
             except ServerError, e:
                 print "Request Error: ", e.message, '\n', data
                 response.set_status(status_code=e.code)
                 conn.sendall(str(response))
                 conn.close()
-                continue
-            if request.path in self.app.paths:
-                handler = self.app.paths[request.path](request, response)
-                try:
-                    handler.handle()
-                except ServerError, e:
-                    print "Request Error: ", e.message, '\n', data
-                    response.set_status(status_code=e.code)
-                    conn.sendall(str(response))
-                    conn.close()
-                    continue
-            else:
-                response = not_found_response()
-            conn.sendall(str(response))
+                return
+        else:
+            response = not_found_response()
+        conn.sendall(str(response))
+        if request.headers.get('Connection') == 'keep-alive':
+            conn.settimeout(15)
+        else:
             conn.close()
