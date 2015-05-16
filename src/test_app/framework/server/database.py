@@ -18,7 +18,7 @@ def createTable(table_name, column_names, c):
     for col in column_names:
         sql_statement += col + ' TEXT NOT NULL, '
     sql_statement = sql_statement[:-2]
-    sql_statement += ')'
+    sql_statement += ');'
     c.execute(sql_statement)
 
 #CRUD OPERATIONS!!!!!!!!!!!!
@@ -30,14 +30,18 @@ def createEntry(table_name, list_of_params, c):
         into table_name. no error checking, the list
         better have correct number of elements
         c = db cursor"""
-
-    pass
+        sql_statement = 'INSERT INTO ' + table_name + 'VALUES ('
+        for val in list_of_params:
+            sql_statement += val + ", "
+        sql_statement = sql_statement[:-2]
+        sql_statement += ');'
+        c.execute(sql_statement)
 
 def readEntry(table_name, column_name, search, c):
     """SELECT
         selects row from table_name where column_name = search
         c = db cursor"""
-    return c.execute("SELECT * FROM %s where %s=%s", (table_name, column_name, search))
+    return c.execute("SELECT * FROM %s where %s=%s;", (table_name, column_name, search))
 
 
 def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val c):
@@ -46,10 +50,10 @@ def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val 
          in table_name where look_up_col = look_up_val
         with the update_value.
         c = db cursor"""
-    c.execute("UPDATE %s SET %s = %s WHERE %s=%s", (table_name, column_name, update_value, look_up_col, look_up_val))
+    c.execute("UPDATE %s SET %s = %s WHERE %s=%s;", (table_name, column_name, update_value, look_up_col, look_up_val))
 
 def deleteEntry(table_name, column_name, value, c):
     """DELETE
         deletes entry in table_name where column_name = value
         c = db cursor"""
-    pass
+    c.execute("DELETE FROM %s WHERE %s=%s;", (table_name, column_name, value))
