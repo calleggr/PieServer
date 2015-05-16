@@ -20,11 +20,18 @@ def createTable(table_name, column_names, c):
     sql_statement += ')'
     c.execute(sql_statement)
 
-def addEntry():
+#CRUD OPERATIONS!!!!!!!!!!!!
+
+
+def createEntry():
+    pass
+
+def readEntry():
+    pass
+
+
+def updateEntry():
     pass
 
 def deleteEntry():
-    pass
-
-def updateEntry():
     pass
