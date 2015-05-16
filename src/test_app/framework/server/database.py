@@ -44,7 +44,7 @@ def readEntry(table_name, column_name, search, c):
     return c.execute("SELECT * FROM %s where %s=%s;", (table_name, column_name, search))
 
 
-def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val c):
+def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val, c):
     """UPDATE
         updates an entrys value in column_name to update_value
          in table_name where look_up_col = look_up_val
