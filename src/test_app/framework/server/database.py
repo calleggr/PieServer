@@ -33,20 +33,20 @@ def createEntry(table_name, list_of_params, c):
 
     pass
 
-def readEntry(table_name, column_name, value, c):
+def readEntry(table_name, column_name, search, c):
     """SELECT
-        selects from table_name where column_name = value
+        selects row from table_name where column_name = search
         c = db cursor"""
-    pass
+    return c.execute("SELECT * FROM %s where %s=%s", (table_name, column_name, search))
 
 
-def updateEntry(table_name, column_name, value, update_list_of_params, c):
+def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val c):
     """UPDATE
-        updates entry in table_name where column_name = value
-        with the update_list_of_params. no error checking, the list
-        better have correct number of elements
+        updates an entrys value in column_name to update_value
+         in table_name where look_up_col = look_up_val
+        with the update_value.
         c = db cursor"""
-    pass
+    c.execute("UPDATE %s SET %s = %s WHERE %s=%s", (table_name, column_name, update_value, look_up_col, look_up_val))
 
 def deleteEntry(table_name, column_name, value, c):
     """DELETE
