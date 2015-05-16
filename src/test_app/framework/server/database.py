@@ -25,17 +25,17 @@ def createTable(table_name, column_names, c):
 
 
 def createEntry(table_name, list_of_params, c):
-    """ INSERT
-        inserts each element of list_of_params
-        into table_name. no error checking, the list
-        better have correct number of elements
-        c = db cursor"""
-        sql_statement = 'INSERT INTO ' + table_name + 'VALUES ('
-        for val in list_of_params:
-            sql_statement += val + ", "
-        sql_statement = sql_statement[:-2]
-        sql_statement += ');'
-        c.execute(sql_statement)
+    """INSERT
+    inserts each element of list_of_params
+    into table_name. no error checking, the list
+    better have correct number of elements
+    c = db cursor"""
+    sql_statement = 'INSERT INTO ' + table_name + 'VALUES ('
+    for val in list_of_params:
+        sql_statement += val + ", "
+    sql_statement = sql_statement[:-2]
+    sql_statement += ');'
+    c.execute(sql_statement)
 
 def readEntry(table_name, column_name, search, c):
     """SELECT
