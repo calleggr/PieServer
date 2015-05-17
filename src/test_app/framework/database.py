@@ -44,7 +44,7 @@ def readEntry(table_name, column_name, search, c):
     """SELECT
         selects row from table_name where column_name = search
         c = db cursor"""
-    sql_statement = "SELECT * FROM " + table_name + " WHERE " + column_name + "=" + "'" + search + "'" + ";"
+    sql_statement = "SELECT * FROM " + table_name + " WHERE " + column_name + "=" + "'" + str(search) + "'" + ";"
     print sql_statement
     c.execute(sql_statement)
     return_str = []
@@ -80,7 +80,7 @@ def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val,
          in table_name where look_up_col = look_up_val
         with the update_value.
         c = db cursor"""
-    sql_statement = "UPDATE " + table_name + " SET " + column_name + "=" + "'" + update_value +"'"+ " WHERE " + look_up_col + "=" + "'" + look_up_val +"'"+ ";"
+    sql_statement = "UPDATE " + table_name + " SET " + column_name + "=" + "'" + str(update_value) +"'"+ " WHERE " + look_up_col + "=" + "'" + str(look_up_val) +"'"+ ";"
     c.execute(sql_statement)
 
 
@@ -88,5 +88,5 @@ def deleteEntry(table_name, column_name, value, c):
     """DELETE
         deletes entry in table_name where column_name = value
         c = db cursor"""
-    sql_statement = "DELETE FROM " + table_name + " WHERE " + column_name + "=" + "'" + value + "'" + ";"
+    sql_statement = "DELETE FROM " + table_name + " WHERE " + column_name + "=" + "'" + str(value) + "'" + ";"
     c.execute(sql_statement)
