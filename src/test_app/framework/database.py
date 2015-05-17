@@ -43,6 +43,12 @@ def readEntry(table_name, column_name, search, c):
         c = db cursor"""
     return c.execute("SELECT * FROM %s where %s=%s;", (table_name, column_name, search))
 
+def readAll(table_name, c):
+    """SELECT
+        selects all rows from table_name
+        c = db cursor"""
+    return c.execute("SELECT * FROM %s", (table_name))
+
 
 def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val, c):
     """UPDATE
