@@ -14,7 +14,7 @@ def createTable(table_name, column_names, c):
     """create a table in the database
        takes 3 params, a table_name, list of column_names,
        and a cursor object"""
-    sql_statement = 'CREATE TABLE ' + table_name + '(INT ID PRIMARY KEY NOT NULL, '
+    sql_statement = 'CREATE TABLE ' + table_name + '(ID INT PRIMARY KEY NOT NULL, '
     for col in column_names:
         sql_statement += col + ' TEXT NOT NULL, '
     sql_statement = sql_statement[:-2]
@@ -38,7 +38,6 @@ def createEntry(table_name, list_of_params, c):
             sql_statement +="'" + val + "'" + ", "
     sql_statement = sql_statement[:-2]
     sql_statement += ');'
-    print sql_statement
     c.execute(sql_statement)
 
 def readEntry(table_name, column_name, search, c):
@@ -81,10 +80,13 @@ def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val,
          in table_name where look_up_col = look_up_val
         with the update_value.
         c = db cursor"""
-    c.execute("UPDATE %s SET %s = %s WHERE %s=%s;", (table_name, column_name, update_value, look_up_col, look_up_val))
+    sql_statement = "UPDATE " + table_name + " SET " + column_name + "=" + "'" + update_value +"'"+ " WHERE " + look_up_col + "=" + "'" + look_up_val +"'"+ ";"
+    c.execute(sql_statement)
+
 
 def deleteEntry(table_name, column_name, value, c):
     """DELETE
         deletes entry in table_name where column_name = value
         c = db cursor"""
-    c.execute("DELETE FROM %s WHERE %s=%s;", (table_name, column_name, value))
+    sql_statement = "DELETE FROM " + table_name + " WHERE " + column_name + "=" + "'" + value + "'" + ";"
+    c.execute(sql_statement)
