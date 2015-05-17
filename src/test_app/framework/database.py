@@ -30,11 +30,15 @@ def createEntry(table_name, list_of_params, c):
     into table_name. no error checking, the list
     better have correct number of elements
     c = db cursor"""
-    sql_statement = 'INSERT INTO ' + table_name + 'VALUES ('
+    sql_statement = 'INSERT INTO ' + table_name + ' VALUES ('
     for val in list_of_params:
-        sql_statement += val + ", "
+        if isinstance(val, (int, long)):
+            sql_statement += str(val) + ", "
+        else:
+            sql_statement +="'" + val + "'" + ", "
     sql_statement = sql_statement[:-2]
     sql_statement += ');'
+    print sql_statement
     c.execute(sql_statement)
 
 def readEntry(table_name, column_name, search, c):
@@ -47,7 +51,8 @@ def readAll(table_name, c):
     """SELECT
         selects all rows from table_name
         c = db cursor"""
-    return c.execute("SELECT * FROM %s", (table_name))
+    table = (table_name,)
+    return c.execute("SELECT * FROM ?", table)
 
 
 def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val, c):
