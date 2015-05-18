@@ -61,3 +61,7 @@ target/
 *.csr
 
 *.crt
+
+src/test_app/framework/server/dummycert.pem
+
+*.pem

@@ -14,14 +14,14 @@ class PieServer():
 
     def run(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if self.ssl:
+            s = ssl.SSLSocket(s,keyfile="dummycert.pem",certfile="dummycert.pem",server_side=True,cert_reqs=ssl.CERT_REQUIRED, ca_certs="/etc/hg-dummy-cert.pem")
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind(('', self.port))
         s.listen(1)
         print "Listing on port: " + str(self.port)
         while True:
             conn, addr = s.accept()
-            if self.ssl:
-                conn = ssl.wrap_socket(conn,server_side=True,certfile="server.crt",keyfile="server.key")
             thread = threading.Thread(target=handle_conn, args=(conn, addr, self.app))
             thread.start()
 
