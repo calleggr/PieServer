@@ -1,14 +1,16 @@
 import socket
 import threading
+import ssl
 from response import Response, not_found_response
 from request import Request
 from errors import ServerError
 
 class PieServer():
 
-    def __init__(self, app, port=8080):
+    def __init__(self, app, port=8080, ssl=False):
         self.app = app
         self.port = port
+        self.ssl = ssl
 
     def run(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,6 +20,8 @@ class PieServer():
         print "Listing on port: " + str(self.port)
         while True:
             conn, addr = s.accept()
+            if self.ssl:
+                conn = ssl.wrap_socket(conn,server_side=True,certfile="server.crt",keyfile="server.key")
             thread = threading.Thread(target=handle_conn, args=(conn, addr, self.app))
             thread.start()
 
