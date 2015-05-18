@@ -15,7 +15,10 @@ class PieServer():
     def run(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if self.ssl:
-            s = ssl.SSLSocket(s,keyfile="dummycert.pem",certfile="dummycert.pem",server_side=True,cert_reqs=ssl.CERT_REQUIRED, ca_certs="/etc/hg-dummy-cert.pem")
+            s = ssl.SSLSocket(s,
+            keyfile="/home/rocky/workspace/PieServer/src/test_app/framework/server/key.pem",
+            certfile="/home/rocky/workspace/PieServer/src/test_app/framework/server/cert.pem",
+            server_side=True)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind(('', self.port))
         s.listen(1)
