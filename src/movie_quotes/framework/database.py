@@ -48,10 +48,8 @@ def create_entry(table_name, list_of_cols, list_of_params, c):
         sql_statement += val + ", "
     sql_statement = sql_statement[:-2]
     sql_statement += ');'
-    print sql_statement
     c.execute(sql_statement)
-    for row in c:
-        print row
+    
 
 def read_entry(table_name, column_name, search, c):
     """SELECT
@@ -61,7 +59,6 @@ def read_entry(table_name, column_name, search, c):
     column_name = json.dumps(column_name)
     search = json.dumps(search)
     sql_statement = "SELECT * FROM " + table_name + " WHERE " + column_name + "=" + "'" + str(search) + "'" + ";"
-    print sql_statement
     c.execute(sql_statement)
     return_str = []
     i = 0;
@@ -102,7 +99,7 @@ def update_entry(table_name, column_name, update_value, look_up_col, look_up_val
     update_value = json.dumps(update_value)
     look_up_col= json.dumps(look_up_col)
     look_up_val = json.dumps(look_up_val)
-    sql_statement = "UPDATE " + table_name + " SET " + column_name + "=" + "'" + str(update_value) +"'"+ " WHERE " + look_up_col + "=" + "'" + str(look_up_val) +"'"+ ";"
+    sql_statement = "UPDATE " + table_name + " SET " + column_name + "=" +  str(update_value) + " WHERE " + look_up_col + "=" +  str(look_up_val) + ";"
     c.execute(sql_statement)
 
 

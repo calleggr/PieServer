@@ -30,7 +30,6 @@ class ZZZZ_API(pie_server.RequestHandler):
     def post(self):
         movie = self.request.qs_lookup("movie")
         quote = self.request.qs_lookup("quote")
-        print movie, quote
         conn, c = database.connect("movie_quotes.db")
         database.create_entry("moviequotes", ["movie","quote"], [movie, quote], c)
         _id = database.read_all("moviequotes",c)[-1][0]
@@ -40,7 +39,6 @@ class ZZZZ_API(pie_server.RequestHandler):
     def delete(self):
         _id = self.request.qs_lookup("id")
         conn, c = database.connect("movie_quotes.db")
-        print database.read_all("moviequotes",c)
         database.delete_entry_by_key("moviequotes","ID", _id, c)
         database.close(conn)
 
@@ -50,6 +48,8 @@ class ZZZZ_API(pie_server.RequestHandler):
         _id = self.request.qs_lookup("id")
         conn, c = database.connect("movie_quotes.db")
         database.update_entry("moviequotes","movie",movie,"ID",_id,c)
+        database.close(conn)
+        conn, c = database.connect("movie_quotes.db")
         database.update_entry("moviequotes","quote",quote,"ID",_id,c)
         database.close(conn)
 
