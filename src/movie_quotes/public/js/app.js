@@ -91,7 +91,7 @@
         $http.put('/api/moviequotes', quote);
       };
       this.delete = function(quote) {
-        $http.delete('/api/moviequotes', quote);
+        $http.delete('/api/moviequotes?id=' + quote.id);
       };
   }])
 })();
