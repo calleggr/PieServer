@@ -1,35 +1,63 @@
 
 import os
-
+import json
 from framework.server.upload import Upload
 from framework import pie_server
+from framework import database
 
 PATH = os.path.dirname(__file__)
 
-class TestHandler(pie_server.RequestHandler):
-
-    def head(self):
-        pass
-
+class StaticFileHandler(pie_server.RequestHandler):
     def get(self):
-        file = open(os.path.join(PATH, "templates/index.html"))
+        file = open(os.path.join(PATH, self.get_file()))
         self.response.write(file.read())
 
-    def post(self):
-        email = self.request.qs_lookup('email')
-        name = self.request.qs_lookup('name')
-        self.response.write("Name: {0}, Email: {1}".format(name, email))
+    def get_file(self):
+        return 'public' + self.request.path
 
-class FileHandler(pie_server.RequestHandler):
+class IndexFileHandler(StaticFileHandler):
+    def get_file(self):
+        return 'public/index.html'
 
+class ZZZZ_API(pie_server.RequestHandler):
     def get(self):
-        file = open(os.path.join(PATH, "templates/uploads.html"))
-        self.response.write(file.read())
+        conn, c = database.connect("movie_quotes.db")
+        return_cont = database.readAll("moviequotes",c)
+        database.close(conn)
+        return_cont = [{'id':v[0], 'movie':v[1], 'quote':v[2]} for v in return_cont]
+        self.response.write(json.dumps(return_cont))
 
     def post(self):
-        name = self.request.qs_lookup('name')
-        file = Upload('', '') or self.request.get_upload('file')
-        self.response.write("Name: {0}, Filename: {1}\r\n\r\n".format(name, file.name))
-        self.response.write(file.data)
+        movie = self.request.params["movie"]
+        quote = self.request.params["quote"]
+        conn, c = database.connect("movie_quotes.db")
+        database.createEntry("moviequotes", ["movie","quote"], [movie, quote], c)
+        _id = readAll("moviequotes",c)[-1][0]
+        database.close(conn)
+        self.response.write(json.dumps({'id':_id}))
 
-app = pie_server.App( {'/' : TestHandler, '/upload': FileHandler} )
+    def delete(self):
+        _id = self.request.params["id"]
+        conn, c = database.connect("movie_quotes.db")
+        database.deleteEntry("moviequotes","ID", _id, c)
+        database.close(conn)
+
+    def put(self):
+        movie = self.request.params["movie"]
+        quote = self.request.params["quote"]
+        _id = self.request.params["id"]
+        conn, c = database.connect("movie_quotes.db")
+        database.updateEntry("moviequotes","movie",movie,"ID",_id,c)
+        database.updateEntry("moviequotes","quote",quote,"ID",_id,c)
+        database.close(conn)
+
+static_files = []
+for file in os.walk("public"):
+    static_files += [file[0][6:] + '/' + f for f in file[2]]
+
+paths = {'/' : IndexFileHandler}
+
+for file in static_files:
+    paths[file] = StaticFileHandler
+
+app = pie_server.App(paths)

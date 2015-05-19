@@ -3,7 +3,7 @@ import urllib
 
 class Request():
 
-    ALLOWED_METHODS = ['HEAD', 'GET', 'POST']
+    ALLOWED_METHODS = ['HEAD', 'GET', 'POST', 'PUT', 'DELETE']
 
     def __init__(self, request_text):
         request_text = request_text.split('\r\n\r\n', 1)
@@ -37,19 +37,9 @@ class Request():
             self.headers[name] = value
         if self.version.endswith('1.1') and not self.headers.get('Host'):
             raise ServerError('Invalid Request, no host in header', 400)
-        if self.method == 'POST':
-            if 'multipart/form-data' in self.headers.get('Content-Type', ""):
-                content_type = self.headers.get('Content-Type')
-                boundary_start = content_type.index('boundary=')
-                boundary = content_type[boundary_start:]
-                boundary = boundary[boundary.index('=') + 1:]
-                self._parse_body_as_multipart(boundary)
-            elif 'application/x-www-form-urlencoded' in self.headers.get('Content-Type', ""):
+        if self.method == 'POST' or self.method == 'PUT':
+            if 'application/x-www-form-urlencoded' in self.headers.get('Content-Type', ""):
                 self._parse_parameters(self.params, self.body)
-
-    def _parse_body_as_multipart(self, boundary):
-        #TODO
-        pass
 
     def _parse_parameters(self, list, params):
         for param in params.split('&'):

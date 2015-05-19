@@ -54,7 +54,10 @@
 
     this.listMovieQuotes = function() {
       //TODO
-      this.items = MovieQuotes.query();
+      var self = this;
+      MovieQuotes.query(function(json) {
+          self.items = json;
+      });
     };
 
     // Make the initial backend request.
@@ -70,9 +73,31 @@
 
   });
 
-  app.factory('MovieQuotes', ['$resource', function($resource){
-    return $resource('/api/moviequotes/:id', null, {
-      'update': { method:'PUT' }
-    });
+  app.service('MovieQuotes', ['$http', function($http){
+      //_id, movie, quote
+      this.query = function(callback) {
+        $http.get('/api/moviequotes').
+          success(function(data, status, headers, config) {
+            console.log(data);
+          });
+      };
+      this.save = function(quote) {
+        $http.post('/api/moviequotes', quote).
+          success(function(data, status, headers, config) {
+            console.log(data);
+          });
+      };
+      this.update = function(quote) {
+        $http.put('/api/moviequotes', quote).
+          success(function(data, status, headers, config) {
+            console.log(data);
+          });
+      };
+      this.delete = function(quote) {
+        $http.delete('/api/moviequotes', quote).
+          success(function(data, status, headers, config) {
+            console.log(data);
+          });
+      };
   }])
 })();

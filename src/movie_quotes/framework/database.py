@@ -14,7 +14,7 @@ def createTable(table_name, column_names, c):
     """create a table in the database
        takes 3 params, a table_name, list of column_names,
        and a cursor object"""
-    sql_statement = 'CREATE TABLE ' + table_name + '(ID INT PRIMARY KEY NOT NULL, '
+    sql_statement = 'CREATE TABLE ' + table_name + '(ID INTEGER PRIMARY KEY, '
     for col in column_names:
         sql_statement += col + ' TEXT NOT NULL, '
     sql_statement = sql_statement[:-2]
@@ -24,21 +24,25 @@ def createTable(table_name, column_names, c):
 #CRUD OPERATIONS!!!!!!!!!!!!
 
 
-def createEntry(table_name, list_of_params, c):
+def createEntry(table_name, list_of_cols, list_of_params, c):
     """INSERT
     inserts each element of list_of_params
     into table_name. no error checking, the list
     better have correct number of elements
     c = db cursor"""
-    sql_statement = 'INSERT INTO ' + table_name + ' VALUES ('
+    sql_statement = 'INSERT INTO ' + table_name + ' (ID, '
+    for val in list_of_cols:
+        sql_statement +=val + ", "
+    sql_statement = sql_statement[:-2]
+    sql_statement += ') VALUES (NULL, '
     for val in list_of_params:
-        if isinstance(val, (int, long)):
-            sql_statement += str(val) + ", "
-        else:
-            sql_statement +="'" + val + "'" + ", "
+        sql_statement +="'" + val + "'" + ", "
     sql_statement = sql_statement[:-2]
     sql_statement += ');'
+    #print sql_statement
     c.execute(sql_statement)
+    for row in c:
+        print row
 
 def readEntry(table_name, column_name, search, c):
     """SELECT
