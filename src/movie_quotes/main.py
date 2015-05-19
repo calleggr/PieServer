@@ -39,8 +39,8 @@ class ZZZZ_API(pie_server.RequestHandler):
 
     def delete(self):
         _id = self.request.qs_lookup("id")
-        print _id
         conn, c = database.connect("movie_quotes.db")
+        print database.read_all("moviequotes",c)
         database.delete_entry_by_key("moviequotes","ID", _id, c)
         database.close(conn)
 
