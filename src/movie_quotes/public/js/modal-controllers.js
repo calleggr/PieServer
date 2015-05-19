@@ -16,7 +16,7 @@
       if(this.isNewQuote) {
         MovieQuotes.save(movieQuoteInModal);
       } else {
-        MovieQuotes.update({id: movieQuoteInModal._id}, movieQuoteInModal);
+        MovieQuotes.update(movieQuoteInModal);
       }
       $modalInstance.close(movieQuoteInModal);
     };
@@ -37,7 +37,7 @@
 	app.controller("DeleteQuoteModalCtrl", function ($modalInstance, movieQuoteInModal, MovieQuotes) {
 	  this.deleteQuote = function () {
 	    //TODO
-      MovieQuotes.delete({id: movieQuoteInModal._id}, movieQuoteInModal);
+      MovieQuotes.delete(movieQuoteInModal);
 	    $modalInstance.close(movieQuoteInModal);
 	  };
 

@@ -1,5 +1,6 @@
 from errors import ServerError
 import urllib
+import json
 
 class Request():
 
@@ -38,7 +39,9 @@ class Request():
         if self.version.endswith('1.1') and not self.headers.get('Host'):
             raise ServerError('Invalid Request, no host in header', 400)
         if self.method == 'POST' or self.method == 'PUT':
-            if 'application/x-www-form-urlencoded' in self.headers.get('Content-Type', ""):
+            if 'application/json' in self.headers.get('Content-Type', ""):
+                self.params += json.loads(self.body).items()
+            elif 'application/x-www-form-urlencoded' in self.headers.get('Content-Type', ""):
                 self._parse_parameters(self.params, self.body)
 
     def _parse_parameters(self, list, params):

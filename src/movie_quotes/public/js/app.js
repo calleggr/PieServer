@@ -78,26 +78,20 @@
       this.query = function(callback) {
         $http.get('/api/moviequotes').
           success(function(data, status, headers, config) {
-            console.log(data);
+            callback(data);
           });
       };
       this.save = function(quote) {
         $http.post('/api/moviequotes', quote).
           success(function(data, status, headers, config) {
-            console.log(data);
+            quote.id = data.id;
           });
       };
       this.update = function(quote) {
-        $http.put('/api/moviequotes', quote).
-          success(function(data, status, headers, config) {
-            console.log(data);
-          });
+        $http.put('/api/moviequotes', quote);
       };
       this.delete = function(quote) {
-        $http.delete('/api/moviequotes', quote).
-          success(function(data, status, headers, config) {
-            console.log(data);
-          });
+        $http.delete('/api/moviequotes', quote);
       };
   }])
 })();

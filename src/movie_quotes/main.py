@@ -28,34 +28,36 @@ class ZZZZ_API(pie_server.RequestHandler):
         self.response.write(json.dumps(return_cont))
 
     def post(self):
-        movie = self.request.params["movie"]
-        quote = self.request.params["quote"]
+        movie = self.request.qs_lookup("movie")
+        quote = self.request.qs_lookup("quote")
+        print movie, quote
         conn, c = database.connect("movie_quotes.db")
         database.createEntry("moviequotes", ["movie","quote"], [movie, quote], c)
-        _id = readAll("moviequotes",c)[-1][0]
+        _id = database.readAll("moviequotes",c)[-1][0]
         database.close(conn)
         self.response.write(json.dumps({'id':_id}))
 
     def delete(self):
-        _id = self.request.params["id"]
+        _id = self.request.qs_lookup("id")
+        print _id
         conn, c = database.connect("movie_quotes.db")
-        database.deleteEntry("moviequotes","ID", _id, c)
+        database.deleteEntryByKey("moviequotes","ID", _id, c)
         database.close(conn)
 
     def put(self):
-        movie = self.request.params["movie"]
-        quote = self.request.params["quote"]
-        _id = self.request.params["id"]
+        movie = self.request.qs_lookup("movie")
+        quote = self.request.qs_lookup("quote")
+        _id = self.request.qs_lookup("id")
         conn, c = database.connect("movie_quotes.db")
         database.updateEntry("moviequotes","movie",movie,"ID",_id,c)
         database.updateEntry("moviequotes","quote",quote,"ID",_id,c)
         database.close(conn)
 
 static_files = []
-for file in os.walk("public"):
-    static_files += [file[0][6:] + '/' + f for f in file[2]]
+for file in os.walk(os.path.join(PATH, "public")):
+    static_files += [file[0][7 + len(PATH):] + '/' + f for f in file[2]]
 
-paths = {'/' : IndexFileHandler}
+paths = {'/' : IndexFileHandler, '/api/moviequotes' : ZZZZ_API}
 
 for file in static_files:
     paths[file] = StaticFileHandler

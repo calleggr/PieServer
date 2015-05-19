@@ -88,9 +88,9 @@ def updateEntry(table_name, column_name, update_value, look_up_col, look_up_val,
     c.execute(sql_statement)
 
 
-def deleteEntry(table_name, column_name, value, c):
+def deleteEntryByKey(table_name, column_name, value, c):
     """DELETE
         deletes entry in table_name where column_name = value
         c = db cursor"""
-    sql_statement = "DELETE FROM " + table_name + " WHERE " + column_name + "=" + "'" + str(value) + "'" + ";"
+    sql_statement = "DELETE FROM " + table_name + " WHERE " + column_name + "=" + value + ";"
     c.execute(sql_statement)
