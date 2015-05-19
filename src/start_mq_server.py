@@ -7,8 +7,8 @@ if os.path.isfile("movie_quotes.db"):
     os.remove("movie_quotes.db")
 
 conn , c = database.connect("movie_quotes.db")
-database.createTable("moviequotes", ["movie","quote"], c)
-database.createEntry("moviequotes", ["movie","quote"], ["tyler", "i dont care"], c)
+database.create_table("moviequotes", ["movie","quote"], c)
+database.create_entry("moviequotes", ["movie","quote"], ["tyler", "i dont care"], c)
 database.close(conn)
 
 PieServer(app).run()

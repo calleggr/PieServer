@@ -22,7 +22,7 @@ class IndexFileHandler(StaticFileHandler):
 class ZZZZ_API(pie_server.RequestHandler):
     def get(self):
         conn, c = database.connect("movie_quotes.db")
-        return_cont = database.readAll("moviequotes",c)
+        return_cont = database.read_all("moviequotes",c)
         database.close(conn)
         return_cont = [{'id':v[0], 'movie':v[1], 'quote':v[2]} for v in return_cont]
         self.response.write(json.dumps(return_cont))
@@ -32,8 +32,8 @@ class ZZZZ_API(pie_server.RequestHandler):
         quote = self.request.qs_lookup("quote")
         print movie, quote
         conn, c = database.connect("movie_quotes.db")
-        database.createEntry("moviequotes", ["movie","quote"], [movie, quote], c)
-        _id = database.readAll("moviequotes",c)[-1][0]
+        database.create_entry("moviequotes", ["movie","quote"], [movie, quote], c)
+        _id = database.read_all("moviequotes",c)[-1][0]
         database.close(conn)
         self.response.write(json.dumps({'id':_id}))
 
@@ -41,7 +41,7 @@ class ZZZZ_API(pie_server.RequestHandler):
         _id = self.request.qs_lookup("id")
         print _id
         conn, c = database.connect("movie_quotes.db")
-        database.deleteEntryByKey("moviequotes","ID", _id, c)
+        database.delete_entry_by_key("moviequotes","ID", _id, c)
         database.close(conn)
 
     def put(self):
@@ -49,8 +49,8 @@ class ZZZZ_API(pie_server.RequestHandler):
         quote = self.request.qs_lookup("quote")
         _id = self.request.qs_lookup("id")
         conn, c = database.connect("movie_quotes.db")
-        database.updateEntry("moviequotes","movie",movie,"ID",_id,c)
-        database.updateEntry("moviequotes","quote",quote,"ID",_id,c)
+        database.update_entry("moviequotes","movie",movie,"ID",_id,c)
+        database.update_entry("moviequotes","quote",quote,"ID",_id,c)
         database.close(conn)
 
 static_files = []
